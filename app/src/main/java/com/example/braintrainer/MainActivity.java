@@ -79,27 +79,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void timers()
     {
+        //  Timer not working properly
         Log.d("Inside" , "Timer");
-        new CountDownTimer(10000,1000) {
+        new CountDownTimer(20000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                generateQuestion();
-                nextQuestion();
-                timer.setText(Long.toString(millisUntilFinished/1000));
+                timer.setText(Long.toString(millisUntilFinished/1000 ) + "s");
                 Log.d("Timer" , "timer " + millisUntilFinished/1000);
             }
 
             @Override
             public void onFinish() {
-                /*b0.setEnabled(false);
+                b0.setEnabled(false);
                 b1.setEnabled(false);
                 b2.setEnabled(false);
                 b3.setEnabled(false);
-*/
                 answer.setText("Your score: " + totalCorrectAnswer + "/" + totalQuestions);
                 playagain.setVisibility(View.VISIBLE);
             }
-        };
+        }.start();
     }
 
     public void init()
@@ -111,13 +109,26 @@ public class MainActivity extends AppCompatActivity {
         b2 = (Button) findViewById(R.id.button2);
         b3 = (Button) findViewById(R.id.button3);
         answer = (TextView) findViewById(R.id.answer);
+        answer.setText("");
         timer = (TextView) findViewById(R.id.timer);
         playagain = (Button) findViewById(R.id.playagain);
+        playagain.setVisibility(View.INVISIBLE);
         totalCorrectAnswer = 0;
         totalQuestions = 0;
         score = (TextView) findViewById(R.id.score);
         score.setText("0/0");
         timer.setText("10s");
+        b0.setEnabled(true);
+        b1.setEnabled(true);
+        b2.setEnabled(true);
+        b3.setEnabled(true);
+    }
+
+    public void playagain(View view){
+        init();
+        generateQuestion();
+        nextQuestion();
+        timers();
     }
 
     @Override
@@ -125,7 +136,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-
+        generateQuestion();
+        nextQuestion();
         timers();
     }
 }
